@@ -1,0 +1,11 @@
+    <div>
+        <div ng-if="favourites.length !== 0">
+            <div ng-repeat="favourite in favourites" class="btn btn-default">
+                {{favourite.fullName}}<br>
+                {{favourite.phoneNumber}}
+            </div>
+        </div>
+        <div ng-if="favourites.length === 0">
+            List is empty
+        </div>
+    </div>

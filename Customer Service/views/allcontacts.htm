@@ -1,0 +1,36 @@
+<div>
+        <form>
+            <div class="input-group form-group-sm">
+                <input type="text" class="form-control input-sm" placeholder="Search" ng-model="search.fullName" ng-minlength="2">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+            </div>
+        <table class="table-striped table-bordered">
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>DOB</th>
+                <th>Phone Number</th>
+                <th>Favourite</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="contact in contacts | filter: search">
+                <td>
+                    <input type="checkbox" ng-click="selectContact(contact)"/>
+                </td>
+                <td>{{contact.fullName}}</td>
+                <td>{{contact.dateOfBirth}}</td>
+                <td>{{contact.phoneNumber}}</td>
+                <td>
+                    <input type="checkbox" ng-checked="checkFavourites(contact)" ng-click="selectFavourites(contact)"/>
+                </td>
+                <td ng-click="" class="col-sm-1"><a href="/edit/{{contact.id}}/true"><span class="glyphicon glyphicon-pencil  btn-link"></span></a></td>
+            </tr>
+        </table>
+
+        <button class="btn btn-sm btn-danger" ng-disabled="checkSelected()" ng-click="removeSelected()">Delete selected</button>
+        <a href="/newitem"><button class="btn btn-sm btn-success">Create</button></a>
+    </div>

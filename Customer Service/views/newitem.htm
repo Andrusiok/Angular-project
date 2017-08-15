@@ -1,0 +1,26 @@
+<html ng-app="customerService">
+<head>
+    <div>
+        <form name="contactForm" ng-submit="validateForm()" novalidate>
+            <div class="input-group form-group-sm">
+                <ng-names-input first-name="contact.firstName" last-name="contact.lastName"></ng-names-input>
+                <ng-birth-date value="contact.birthDate" model="contact.dateOfBirth"></ng-birth-date>  
+                <ng-phone model="contact.phoneNumber"></ng-phone>                             
+                <ng-gender-picker model="contact.gender"></ng-gender-picker>
+                <select name="options" class="form-control input-sm" 
+                    ng-model="contact.optionID" 
+                    ng-options="option.optionID as option.value for option in options" 
+                    ng-required="true">
+                    <option value="">Select type</option>
+                </select>                 
+                <textarea type="textarea" class="form-control input-sm" placeholder="Description" ng-model="contact.description"></textarea>
+            </div>
+            <ng-control></ng-control>
+        </form>
+        <span class="alert alert-danger" ng-show="isErrorFirstName">isErrorFirstName</span>
+        <span class="alert alert-danger" ng-show="isErrorLastName">isErrorLastName</span>
+        <span class="alert alert-danger" ng-show="isErrorDate">isErrorDate</span>
+        <span class="alert alert-danger" ng-show="isErrorPhone">isErrorPhone</span>
+        <span class="alert alert-danger" ng-show="isErrorOption">isErrorOption</span>
+        <span class="alert alert-danger" ng-show="isErrorGender">isErrorGender</span>
+    </div>
