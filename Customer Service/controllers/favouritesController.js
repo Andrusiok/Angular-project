@@ -1,5 +1,7 @@
-phonecatApp.controller('favouritesController', function contactListController($scope, contactService) {
+phonecatApp.controller('FavouritesController', FavouritesController);
+
+function FavouritesController($scope, contactService) {
   $scope.contacts = contactService.getContacts();
 
-  $scope.favourites = contactService.getFavourites();
-});
+  $scope.favourites = _.where($scope.contacts, {favourite: true});
+};

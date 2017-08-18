@@ -1,15 +1,25 @@
-phonecatApp.controller('allContactsController', function contactListController($scope, contactService) {
-  $scope.contacts = contactService.getContacts();
+phonecatApp.controller('AllContactsController', AllContactsController);
 
-  $scope.favourites = contactService.getFavourites();
+function AllContactsController ($scope, $location, contactService) {
+  $scope.contacts = contactService.getContacts();
 
   $scope.selected = [];
 
-  $scope.checkFavourites = function(contact){
-    var favourites = $scope.favourites;
+  $scope.selectFavourites = function(contact){
+    contact.favourite = !contact.favourite;
+  }
 
-    return contactService.findFirstIndex(contact, favourites) > -1;
-  };
+  $scope.checkSelected = function(){
+    return $scope.selected.length === 0;
+  }
+
+  $scope.editContact = function(id){
+    $location.url('/contact/' + id);
+  }
+
+  $scope.createContact = function(){
+    $scope.editContact(-1);
+  }
 
   $scope.selectContact = function(contact){
     var index = $scope.selected.indexOf(contact);
@@ -18,34 +28,19 @@ phonecatApp.controller('allContactsController', function contactListController($
     else $scope.selected.push(contact);
   }
 
-  $scope.selectFavourites = function(contact){
-    var favourites = $scope.favourites;
-    var index = contactService.findFirstIndex(contact, favourites);
-
-    if (index > -1) $scope.favourites.splice(index, 1);
-    else $scope.favourites.push(contact);
-  }
-
-  $scope.checkSelected = function(){
-    return $scope.selected.length === 0;
-  }
-
   $scope.removeSelected = function(){
     var selected = $scope.selected;
 
     for (let i = 0; i < selected.length; i++){       
-      let contactsIndex = contactService.findFirstIndex(selected[i], $scope.contacts);
+      let index = _.findIndex($scope.contacts, function(contact){
+        return contact.isEqualTo(selected[i])
+      });
 
-      if (contactsIndex > -1){
-        let favouriteIndex = contactService.findFirstIndex(selected[i], $scope.favourites);
-        $scope.contacts.splice(contactsIndex, 1);
-
-        if (favouriteIndex > -1){
-          $scope.favourites.splice(favouriteIndex, 1);
-        }        
+      if (index > -1){
+        $scope.contacts.splice(index, 1);    
       }
     }
 
     $scope.selected = [];
   }
-});
+};

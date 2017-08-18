@@ -1,6 +1,7 @@
-phonecatApp.controller('newContactController', function newContactController($scope, $routeParams, $location, contactService, dateFilter) {
+phonecatApp.controller('NewContactController', NewContactController);
+
+function NewContactController($scope, $routeParams, $location, contactService, dateFilter) {
   var item = contactService.getContacts()[$routeParams.itemID];
-  var edit = ($routeParams.edit == 'true')
 
   var getKeyByValue = function(value) {
     for(let i=0; i< $scope.options.length; i++) {
@@ -24,7 +25,7 @@ phonecatApp.controller('newContactController', function newContactController($sc
   }
 
   var getContact = function(){
-    if (edit) {
+    if (item) {
       return {
         firstName: item.firstName,    
         lastName: item.lastName,
@@ -38,7 +39,6 @@ phonecatApp.controller('newContactController', function newContactController($sc
 
     return {}
   }
-
 
   var checkDate = function(date){
       var empty = date === undefined || date === null;
@@ -74,9 +74,7 @@ phonecatApp.controller('newContactController', function newContactController($sc
       $scope.isErrorOption = $scope.contactForm.options.$invalid;
       $scope.isErrorGender = $scope.contactForm.gender.$invalid;
 
-      isError = $scope.isErrorFirstName || $scope.isErrorLastName ||
-                $scope.isErrorDate || $scope.isErrorPhone ||
-                $scope.isErrorOption || $scope.isErrorGender;
+      isError = $scope.contactForm.$invalid || $scope.isErrorDate;
 
       if (!isError){
         newContact = new User(contact.firstName,
@@ -86,8 +84,9 @@ phonecatApp.controller('newContactController', function newContactController($sc
            getValueByKey(contact.optionID),
            contact.gender,
            contact.description)
-        if (edit){
+        if (item){
           newContact.id = item.id;
+          newContact.favourite = item.favourite;
           promise = contactService.editContact(newContact);
         } else{
           promise = contactService.addContact(newContact);
@@ -100,4 +99,4 @@ phonecatApp.controller('newContactController', function newContactController($sc
         })
       }
   }
-});
+}

@@ -1,0 +1,6 @@
+<select name="options" class="form-control input-sm" 
+    ng-model="$ctrl.model" 
+    ng-options="option.optionID as option.value for option in $ctrl.list" 
+    ng-required="true">
+<option value="">Select type</option>
+</select>
